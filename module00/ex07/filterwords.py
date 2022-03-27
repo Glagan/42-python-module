@@ -13,7 +13,8 @@ except BaseException:
     print('ERROR')
     exit()
 
-result = [word.strip(',.:!?;()[]{{}}=\'"`@_-+#~&$€*%§/\\')
+# Use the length *with* punctuation to count word length
+result = [word.translate(dict.fromkeys(map(ord, ',.:;!?()[]{}|<>-=_\'"`@+#~&$£€*/\\'), None))
           for word in string.split() if len(word) > n]
 result = [word for word in result if word]
 print(result)

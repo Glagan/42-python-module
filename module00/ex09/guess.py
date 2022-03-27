@@ -14,8 +14,8 @@ while True:
         print('Goodbye!')
         break
     try:
-        guess_num = int(guess)
         tries += 1
+        guess_num = int(guess)
         if guess_num > number:
             print('Too high!')
         elif guess_num < number:

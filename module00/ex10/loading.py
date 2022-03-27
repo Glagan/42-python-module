@@ -14,10 +14,14 @@ def ft_progress(lst: list):
     except BaseException:
         width, _ = 0, 0
     available_bars = 24
-    last = len(lst)
-    last_len = len(str(last))
+    try:
+        last = len(lst)
+        last_len = len(str(last))
+    except BaseException:
+        print('Invalid argument `{}`'.format(lst))
+        return
     last_operation_durations = []
-    for i in range(last):
+    for (i, value) in enumerate(lst):
         # Calculate estimated remaining time
         # last 100 times saved in last_operation_durations are in microseconds
         estimated = 0
@@ -38,8 +42,7 @@ def ft_progress(lst: list):
             bar_fill=available_bars - bar_size
         )
         # Format the line before to pad with spaces
-        # This is required to clear the terminal on smaller width after a
-        # longer width
+        # This is required to clear the terminal on smaller width after a longer width
         line = 'ETA: {:.2f}s [{:>4.0%}][{}] {:>{len_length}}/{} | elapsed time {:.2f}s'.format(
             estimated,
             per_completion,
@@ -53,7 +56,7 @@ def ft_progress(lst: list):
         print('{: <{terminal_width}}'.format(
             line, terminal_width=width), end=line_end)
         operation_start = datetime.now()
-        yield i
+        yield value
         # Save the last 100 operations duration to average them out
         last_operation_durations.append(
             (datetime.now() - operation_start).microseconds)
@@ -61,10 +64,11 @@ def ft_progress(lst: list):
             last_operation_durations.pop(0)
 
 
-listy = range(1000)
-ret = 0
-for elem in ft_progress(listy):
-    ret += (elem + 3) % 5
-    sleep(0.01)
-print()
-print(ret)
+if __name__ == '__main__':
+    listy = range(200)
+    ret = 0
+    for elem in ft_progress(listy):
+        ret += (elem + 3) % 5
+        sleep(0.01)
+    print()
+    print(ret)
