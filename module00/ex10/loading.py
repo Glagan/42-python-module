@@ -11,7 +11,7 @@ def ft_progress(lst: list):
     start = datetime.now()
     try:
         width, _ = os.get_terminal_size()
-    except:
+    except BaseException:
         width, _ = 0, 0
     available_bars = 24
     last = len(lst)
@@ -31,11 +31,23 @@ def ft_progress(lst: list):
         bar_size = math.floor(per_completion * available_bars)
         bar_tip = '=' if i == last - 1 else '>'
         bar = '{:{bar_sep}>{bar_size}}{: <{bar_fill}}'.format(
-            bar_tip, '', bar_sep='=', bar_size=bar_size, bar_fill=available_bars - bar_size)
+            bar_tip,
+            '',
+            bar_sep='=',
+            bar_size=bar_size,
+            bar_fill=available_bars - bar_size
+        )
         # Format the line before to pad with spaces
-        # This is required to clear the terminal on smaller width after a longer width
+        # This is required to clear the terminal on smaller width after a
+        # longer width
         line = 'ETA: {:.2f}s [{:>4.0%}][{}] {:>{len_length}}/{} | elapsed time {:.2f}s'.format(
-            estimated, per_completion, bar, i + 1, last, elapsed, len_length=last_len
+            estimated,
+            per_completion,
+            bar,
+            i + 1,
+            last,
+            elapsed,
+            len_length=last_len
         )
         line_end = '\n' if i == last else '\r'
         print('{: <{terminal_width}}'.format(

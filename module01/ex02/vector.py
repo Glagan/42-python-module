@@ -1,7 +1,7 @@
 class Vector:
     def __init__(self, initializer) -> None:
         self.values = []
-        if type(initializer) is int:
+        if isinstance(initializer, int):
             if initializer < 0:
                 raise TypeError(
                     "You can't have a Vector with a negative size.")
@@ -9,7 +9,7 @@ class Vector:
                 self.values.append(float(i))
             self.size = initializer
         elif isinstance(initializer, tuple):
-            if len(initializer) != 2 or not type(initializer[0]) is int or not type(initializer[1]) is int:
+            if len(initializer) != 2 or not isinstance(initializer[0], int) or not isinstance(initializer[1], int):
                 raise TypeError(
                     'Expected a (min, max) tuple got {}.'.format(initializer))
             if initializer[0] > initializer[1]:
@@ -19,7 +19,7 @@ class Vector:
             self.size = len(self.values)
         elif isinstance(initializer, list):
             for i in initializer:
-                if not type(i) is float:
+                if not isinstance(i, float):
                     raise TypeError(
                         'Vector initializer must be an array of float, got {}.'.format(i))
             self.values = initializer[0:]
@@ -28,7 +28,7 @@ class Vector:
             'Vector initializer must be a list, size or a min-max range.')
 
     def __add__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             return Vector(list(self.values[index] + a for index in range(self.size)))
         elif isinstance(a, Vector):
             if self.size != a.size:
@@ -41,7 +41,7 @@ class Vector:
         return self.__add__(a)
 
     def __sub__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             return Vector(list(self.values[index] - a for index in range(self.size)))
         elif isinstance(a, Vector):
             if self.size != a.size:
@@ -54,7 +54,7 @@ class Vector:
         return self.__sub__(a)
 
     def __mul__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             return Vector(list(self.values[index] * a for index in range(self.size)))
         elif isinstance(a, Vector):
             if self.size != a.size:
@@ -67,7 +67,7 @@ class Vector:
         return self.__mul__(a)
 
     def __truediv__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             if int(a) == 0:
                 raise ZeroDivisionError("You can't divide a Vector by 0 !")
             return Vector(list(self.values[index] / a for index in range(self.size)))

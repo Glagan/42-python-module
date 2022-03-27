@@ -7,7 +7,7 @@ class Evaluator:
             return -1
         result = 0
         for word, coeff in zip(words, coeffs):
-            if type(word) is not str or type(coeff) is not float:
+            if not isinstance(word, str) or not isinstance(coeff, float):
                 print('ERROR')
                 return -1
             result += (len(word) * coeff)
@@ -21,7 +21,7 @@ class Evaluator:
             return -1
         result = 0
         for i, word in enumerate(words):
-            if type(word) is not str or type(coeffs[i]) is not float:
+            if not isinstance(word, str) or not isinstance(coeffs[i], float):
                 print('ERROR')
             result += (len(word) * coeffs[i])
         return result

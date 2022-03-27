@@ -11,7 +11,7 @@ def ft_filter(fct, iterable):
         def __next__(self):
             while True:
                 arg = next(self.iterator)
-                if self.fct == None:
+                if self.fct is None:
                     if arg:
                         return arg
                 elif self.fct(arg):

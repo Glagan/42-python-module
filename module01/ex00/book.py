@@ -5,7 +5,7 @@ from recipe import Recipe
 class Book:
     def __init__(self, name: str) -> None:
         try:
-            if not type(name) is str or not name:
+            if not isinstance(name, str) or not name:
                 raise TypeError(
                     'Invalid name {}. Must be a string.'.format(name))
             self.name = name
@@ -18,7 +18,7 @@ class Book:
 
     def get_recipe_by_name(self, name: str) -> None:
         """Print a recipe with the name `name` and return the instance"""
-        if not type(name) is str or not name:
+        if not isinstance(name, str) or not name:
             raise TypeError(
                 '{} is not a valid recipe Name. Must be a non empty string.'.format(name))
         found = False

@@ -3,10 +3,10 @@ from random import randint
 
 def generator(text: str, sep: str = " ", option: str = None) -> str:
     """Option is an optional arg, sep is mandatory"""
-    if type(text) is not str:
+    if not isinstance(text, str):
         print('ERROR')
         return
-    if option != None and option not in ["shuffle", "ordered", "unique"]:
+    if option is not None and option not in ["shuffle", "ordered", "unique"]:
         print('ERROR')
         return
     lst = text.split(sep)

@@ -106,8 +106,10 @@ while True:
         while not meal:
             meal = ask_input('Type of meal:\n>> ')
             if not meal or meal not in meal_types:
-                print(
-                    "Meal type must be of type {}{}.\n".format(', '.join(meal_types[::-1]), " or {}".format(meal_types[-1]) if len(meal_types) > 1 else ""))
+                print("Meal type must be of type {}{}.\n".format(
+                    ', '.join(meal_types[::-1]),
+                    " or {}".format(meal_types[-1]) if len(meal_types) > 1 else "")
+                )
                 meal = False
         # Preparation time
         prep_time = False
@@ -117,7 +119,7 @@ while True:
                 prep_time = int(prep_time)
                 if not prep_time:
                     print('Preparation time must be more than 0.\n')
-            except:
+            except BaseException:
                 print('Preparation time must be a number.\n')
                 prep_time = False
         # Done

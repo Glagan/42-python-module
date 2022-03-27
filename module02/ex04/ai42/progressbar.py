@@ -9,9 +9,9 @@ def ft_progress(lst: list):
     """
     start = datetime.now()
     try:
-        width, height = os.get_terminal_size()
-    except:
-        width, height = 0, 0
+        width, _ = os.get_terminal_size()
+    except BaseException:
+        width, _ = 0, 0
     last = len(lst)
     last_len = len(str(last))
     last_operation_durations = []

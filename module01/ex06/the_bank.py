@@ -23,7 +23,7 @@ class Bank(object):
         self.account.append(account)
 
     def find_account(self, identifier):
-        is_int = type(identifier) is int
+        is_int = isinstance(identifier, int)
         for account in self.account:
             if (is_int and account.id == identifier) or account.name == identifier:
                 return account
@@ -35,11 +35,11 @@ class Bank(object):
         @dest:    int(id) or str(name) of the destination account
         @amount:  float(amount) amount to transfer
         """
-        if type(amount) is not float or amount < 0:
+        if not isinstance(amount, float) or amount < 0:
             return False
         account_origin = self.find_account(origin)
         account_dest = self.find_account(dest)
-        if account_origin == None or account_dest == None:
+        if account_origin is None or account_dest is None:
             return False
         self.fix_account(account_origin)
         self.fix_account(account_dest)
@@ -66,11 +66,11 @@ class Bank(object):
         setattr(account, 'addr',
                 '1234-abcdef-5678-wxyz' if not has_addr else account.addr)
         attributes = dir(account)
-        if not 'id' in attributes:
+        if 'id' not in attributes:
             setattr(account, 'id', len(self.account))
-        if not 'name' in attributes:
+        if 'name' not in attributes:
             setattr(account, 'name', 'Account#{}'.format(account.id))
-        if not 'value' in attributes:
+        if 'value' not in attributes:
             setattr(account, 'value', 0)
         if len(dir(account)) % 2 == 0:
             new_attribute = 'my_super_attribute'

@@ -30,5 +30,5 @@ while True:
                 print("Congratulations, you've got it!")
                 print('You won in {} attempts!'.format(tries))
             break
-    except:
+    except BaseException:
         print("That's not a number.")

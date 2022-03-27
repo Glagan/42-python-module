@@ -26,7 +26,7 @@ class NumPyCreator:
         return np.array(lst, dtype=dtype)
 
     def from_shape(self, shape: tuple, value=None, dtype=None):
-        if value == None:
+        if value is None:
             value = 0.0
         if not dtype:
             dtype = type(value)

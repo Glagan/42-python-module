@@ -6,9 +6,9 @@ def text_analyzer(string=False, *args, **kwargs) -> None:
     if args or kwargs:
         print('Too many arguments')
         return
-    if string == False:
+    if string is False:
         string = str(input("What is the text to analyse?\n"))
-    if type(string) != str:
+    if not isinstance(string, str):
         print('The text should be a string')
         return
     count = {'upper': 0, 'lower': 0, 'punctuation': 0, 'spaces': 0}

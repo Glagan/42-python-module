@@ -9,7 +9,7 @@ try:
     n = int(sys.argv[2])
     if n < 1:
         raise
-except:
+except BaseException:
     print('ERROR')
     exit()
 

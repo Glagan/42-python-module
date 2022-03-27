@@ -1,7 +1,7 @@
 class Matrix:
     def __init__(self, initializer, shape=None) -> None:
         self.data = []
-        if shape == None:
+        if shape is None:
             if isinstance(initializer, list):
                 self.shape = None
                 if not initializer:
@@ -20,12 +20,12 @@ class Matrix:
                             'Each columns must have the same length.')
                     self.data.append([])
                     for value in col:
-                        if type(value) is not float:
+                        if not isinstance(value, float):
                             raise TypeError(
                                 'Each values in the matrix must be a float.')
                         self.data[-1].append(value)
             elif isinstance(initializer, tuple):
-                if len(initializer) != 2 or not type(initializer[0]) is int or not type(initializer[1]) is int:
+                if len(initializer) != 2 or not isinstance(initializer[0], int) or not isinstance(initializer[1], int):
                     raise TypeError(
                         'Expected a (min, max) tuple as a shape got {}.'.format(initializer))
                 if initializer[0] < 1 or initializer[1] < 1:
@@ -39,7 +39,7 @@ class Matrix:
             if not isinstance(initializer, list):
                 raise TypeError(
                     'Matrix initializer must be a list of list of the given shape')
-            if not isinstance(shape, tuple) or len(shape) != 2 or not type(shape[0]) is int or not type(shape[1]) is int:
+            if not isinstance(shape, tuple) or len(shape) != 2 or not isinstance(shape[0], int) or not isinstance(shape[1], int):
                 raise TypeError(
                     'Expected a (min, max) tuple as a shape got {}.'.format(initializer))
             if shape[0] < 1 or shape[1] < 1:
@@ -57,13 +57,13 @@ class Matrix:
                         'Invalid column length for given shape.')
                 self.data.append([])
                 for value in col:
-                    if type(value) is not float:
+                    if not isinstance(value, float):
                         raise TypeError(
                             'Each values in the matrix must be a float.')
                     self.data[-1].append(value)
 
     def __add__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             result = []
             for row in self.data:
                 result.append(list(col + a for col in row))
@@ -79,12 +79,12 @@ class Matrix:
         return NotImplemented
 
     def __radd__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             return self.__add__(a)
         return NotImplemented
 
     def __sub__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             result = []
             for row in self.data:
                 result.append(list(col - a for col in row))
@@ -101,12 +101,12 @@ class Matrix:
         return NotImplemented
 
     def __rsub__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             return self.__sub__(a)
         return NotImplemented
 
     def __truediv__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             if int(a) == 0:
                 raise ZeroDivisionError("You can't divide a Matrix by 0 !")
             result = []
@@ -144,7 +144,7 @@ class Matrix:
                 return Matrix(result, (self.shape[0], a.shape[1]))
             raise TypeError(
                 "You can only multiply a Matrix with the same shape or a vector that match the rows.")
-        elif type(a) is int or type(a) is float:
+        elif isinstance(a, int) or isinstance(a, float):
             result = []
             for row in self.data:
                 result.append(list(col * a for col in row))
@@ -152,7 +152,7 @@ class Matrix:
         return NotImplemented
 
     def __rmul__(self, a):
-        if type(a) is int or type(a) is float:
+        if isinstance(a, int) or isinstance(a, float):
             return self.__mul__(a)
         return NotImplemented
 

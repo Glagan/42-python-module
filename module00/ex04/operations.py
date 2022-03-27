@@ -24,7 +24,7 @@ elif argc != 3:
 try:
     number1 = int(sys.argv[1])
     number2 = int(sys.argv[2])
-except:
+except BaseException:
     print('InputError: only numbers')
     show_help()
 

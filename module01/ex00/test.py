@@ -9,43 +9,43 @@ print(r)
 # Test all Recipe arguments validation
 try:
     bad_recipe = Recipe(123, 1, 10, ['fish', 'salt', 'pepper'], 'lunch')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe('Test', 0, 10, ['fish', 'salt', 'pepper'], 'lunch')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe('Test', 6, 10, ['fish', 'salt', 'pepper'], 'lunch')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe('Test', 3, -123, ['fish', 'salt', 'pepper'], 'lunch')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe('Test', 3, 10, [], 'lunch')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe('Test', 3, 10, [123, 'salt', 'pepper'], 'lunch')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe('Test', 3, 10, ['fish', 'salt', 'pepper'], 'supper')
-except:
+except BaseException:
     pass
 
 try:
     bad_recipe = Recipe(
         'Test', 3, 10, ['fish', 'salt', 'pepper'], 'dessert', 213)
-except:
+except BaseException:
     pass
 
 # Valid Book
@@ -55,7 +55,7 @@ book = Book('Python')
 # Invalid Book
 try:
     bad_book = Book(123)
-except:
+except BaseException:
     pass
 
 # Check recipes before and after adding one
@@ -66,7 +66,7 @@ book.get_recipe_by_name('Fish')
 # Invalid Recipe
 try:
     book.add_recipe('recipe')
-except:
+except BaseException:
     pass
 
 # Recipes by type and invalid type
@@ -75,5 +75,5 @@ print(book.get_recipes_by_types('lunch'))
 print(book.get_recipes_by_types('dessert'))
 try:
     print(book.get_recipes_by_types('supper'))
-except:
+except BaseException:
     pass
