@@ -34,12 +34,14 @@ class Recipe:
             exit()
 
     def __str__(self):
-        """Return the string to print with the recipe info"""
+        """
+        Return the string to print with the recipe info
+        """
         txt = 'Recipe for {}:\n'.format(self.name)
         txt += '| Cooking level (1-5): {}\n'.format(self.cooking_lvl)
         txt += '| Ingredients list: {}\n'.format(self.ingredients)
         txt += '| To be eaten for {}.\n'.format(self.recipe_type)
-        txt += '| Takes {} minutes of cooking.'.format(self.cooking_time)
+        txt += '| Takes {} minutes of cooking.\n'.format(self.cooking_time)
         if self.description:
             txt += '|| {}\n'.format('\n|| '.join(self.description.split('\n')))
         return txt
