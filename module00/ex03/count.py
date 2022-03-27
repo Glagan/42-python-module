@@ -1,13 +1,16 @@
-def text_analyzer(string = False, *args, **kwargs) -> None:
+def text_analyzer(string=False, *args, **kwargs) -> None:
     """
     This function counts the number of upper characters, lower characters,
     punctuation and spaces in a given text.
     """
     if args or kwargs:
-        print('ERROR')
+        print('Too many arguments')
         return
     if string == False:
         string = str(input("What is the text to analyse?\n"))
+    if type(string) != str:
+        print('The text should be a string')
+        return
     count = {'upper': 0, 'lower': 0, 'punctuation': 0, 'spaces': 0}
     for c in string:
         if c.isspace():

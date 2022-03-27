@@ -1,10 +1,12 @@
 import sys
 
+
 def show_help() -> None:
     print('Usage: python operations.py <number1> <number2>')
     print('Example:')
     print('\tpython operations.py 10 3')
     exit()
+
 
 argc = len(sys.argv)
 number1 = False
@@ -26,7 +28,8 @@ except:
     print('InputError: only numbers')
     show_help()
 
-results = { 'Sum': False, 'Difference': False, 'Product': False, 'Quotient': False, 'Remainder': False }
+results = {'Sum': False, 'Difference': False,
+           'Product': False, 'Quotient': False, 'Remainder': False}
 results['Sum'] = number1 + number2
 results['Difference'] = number1 - number2
 results['Product'] = number1 * number2

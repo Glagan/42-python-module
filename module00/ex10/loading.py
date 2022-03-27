@@ -1,4 +1,5 @@
 import os
+import math
 from datetime import datetime
 from time import sleep
 
@@ -9,9 +10,10 @@ def ft_progress(lst: list):
     """
     start = datetime.now()
     try:
-        width, height = os.get_terminal_size()
+        width, _ = os.get_terminal_size()
     except:
-        width, height = 0, 0
+        width, _ = 0, 0
+    available_bars = 24
     last = len(lst)
     last_len = len(str(last))
     last_operation_durations = []
@@ -25,11 +27,11 @@ def ft_progress(lst: list):
         diff = (datetime.now() - start)
         elapsed = diff.seconds + diff.microseconds / 1000000
         per_completion = (i + 1) / last
-        # Calculate the number of bars out of the 24 bars
-        bar_size = per_completion * 24
-        bar_tip = '=' if i == last else '>'
+        # Calculate the number of bars than need to be filled
+        bar_size = math.floor(per_completion * available_bars)
+        bar_tip = '=' if i == last - 1 else '>'
         bar = '{:{bar_sep}>{bar_size}}{: <{bar_fill}}'.format(
-            bar_tip, '', bar_sep='=', bar_size=bar_size, bar_fill=24 - bar_size)
+            bar_tip, '', bar_sep='=', bar_size=bar_size, bar_fill=available_bars - bar_size)
         # Format the line before to pad with spaces
         # This is required to clear the terminal on smaller width after a longer width
         line = 'ETA: {:.2f}s [{:>4.0%}][{}] {:>{len_length}}/{} | elapsed time {:.2f}s'.format(

@@ -57,6 +57,8 @@ def ask_input(query: str) -> str:
     return result
 
 
+meal_types = ['breakfast', 'lunch', 'dessert', 'diner', 'supper', 'snack']
+
 while True:
     print('Please select an option by typing the corresponding number:')
     print('1: Add a recipe')
@@ -103,9 +105,9 @@ while True:
         meal = False
         while not meal:
             meal = ask_input('Type of meal:\n>> ')
-            if not meal or meal not in ['breakfast', 'lunch', 'dessert', 'diner', 'supper', 'snack']:
+            if not meal or meal not in meal_types:
                 print(
-                    'Meal type must be of type breakfast, lunch, dessert, diner, supper or snack.\n')
+                    "Meal type must be of type {}{}.\n".format(', '.join(meal_types[::-1]), " or {}".format(meal_types[-1]) if len(meal_types) > 1 else ""))
                 meal = False
         # Preparation time
         prep_time = False
