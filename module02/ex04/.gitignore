@@ -1,4 +1,5 @@
+build
 dist
-ai42.egg-info
+my_minipack.egg-info
 test.py
 machine.log

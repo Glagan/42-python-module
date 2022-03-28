@@ -24,8 +24,9 @@ class CsvReader():
         data = []
         columns = 0
         for line in self.file:
-            line_data = list(column.strip('\n')
-                             for column in line.split(self.sep))
+            line_data = [column.strip('\n').strip()
+                         for column in line.split(self.sep)]
+            line_data = [column for column in line_data if column]
             if not header:
                 header = line_data
                 columns = len(header)

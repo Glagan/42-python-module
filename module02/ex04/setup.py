@@ -1,11 +1,13 @@
-from setuptools import setup
+import setuptools
 
-setup(
-    name='ai42',
-    version='1.0',
-    description='The Head First Python Search Tools',
+setuptools.setup(
+    name='my_minipack',
+    version='1.0.0',
+    description='The greatest package',
     author='ncolomer',
     author_email='ncolomer@ncolomer.com',
+    license='GPL-3.0',
     url='ncolomer.com',
-    py_modules=['ai42/logging', 'ai42'],
+    packages=['my_minipack'],
+    install_requires=['setuptools', 'wheel'],
 )

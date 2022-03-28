@@ -1,6 +1,6 @@
 import os
+import math
 from datetime import datetime
-from time import sleep
 
 
 def ft_progress(lst: list):
@@ -12,10 +12,15 @@ def ft_progress(lst: list):
         width, _ = os.get_terminal_size()
     except BaseException:
         width, _ = 0, 0
-    last = len(lst)
-    last_len = len(str(last))
+    available_bars = 24
+    try:
+        last = len(lst)
+        last_len = len(str(last))
+    except BaseException:
+        print('Invalid argument `{}`'.format(lst))
+        return
     last_operation_durations = []
-    for i in range(last):
+    for (i, value) in enumerate(lst):
         # Calculate estimated remaining time
         # last 100 times saved in last_operation_durations are in microseconds
         estimated = 0
@@ -25,21 +30,32 @@ def ft_progress(lst: list):
         diff = (datetime.now() - start)
         elapsed = diff.seconds + diff.microseconds / 1000000
         per_completion = (i + 1) / last
-        # Calculate the number of bars out of the 24 bars
-        bar_size = per_completion * 24
-        bar_tip = '=' if i == last else '>'
+        # Calculate the number of bars than need to be filled
+        bar_size = math.floor(per_completion * available_bars)
+        bar_tip = '=' if i == last - 1 else '>'
         bar = '{:{bar_sep}>{bar_size}}{: <{bar_fill}}'.format(
-            bar_tip, '', bar_sep='=', bar_size=bar_size, bar_fill=24 - bar_size)
+            bar_tip,
+            '',
+            bar_sep='=',
+            bar_size=bar_size,
+            bar_fill=available_bars - bar_size
+        )
         # Format the line before to pad with spaces
         # This is required to clear the terminal on smaller width after a longer width
         line = 'ETA: {:.2f}s [{:>4.0%}][{}] {:>{len_length}}/{} | elapsed time {:.2f}s'.format(
-            estimated, per_completion, bar, i + 1, last, elapsed, len_length=last_len
+            estimated,
+            per_completion,
+            bar,
+            i + 1,
+            last,
+            elapsed,
+            len_length=last_len
         )
         line_end = '\n' if i == last else '\r'
         print('{: <{terminal_width}}'.format(
             line, terminal_width=width), end=line_end)
         operation_start = datetime.now()
-        yield i
+        yield value
         # Save the last 100 operations duration to average them out
         last_operation_durations.append(
             (datetime.now() - operation_start).microseconds)

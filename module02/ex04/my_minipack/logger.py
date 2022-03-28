@@ -1,5 +1,3 @@
-import time
-from random import randint
 from functools import wraps
 from datetime import datetime
 import getpass

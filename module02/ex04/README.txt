@@ -1,1 +1,1 @@
-# ai42
+# my_minipack
