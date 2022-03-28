@@ -34,6 +34,7 @@ class Bank(object):
         @origin:  int(id) or str(name) of the first account
         @dest:    int(id) or str(name) of the destination account
         @amount:  float(amount) amount to transfer
+        @return True if success, False if an error occured
         """
         if not isinstance(amount, float) or amount < 0:
             return False
@@ -41,19 +42,50 @@ class Bank(object):
         account_dest = self.find_account(dest)
         if account_origin is None or account_dest is None:
             return False
-        self.fix_account(account_origin)
-        self.fix_account(account_dest)
+        if self.is_corrupted(account_origin) or self.is_corrupted(account_dest):
+            return False
         if account_origin.value < amount:
             return False
         account_origin.transfer(-amount)
         account_dest.transfer(amount)
+        return True
+
+    def is_corrupted(self, account):
+        """
+        Check if an account is corrupted
+        @account: account
+        @return True if the account is corrupted, False if it's not
+        """
+        attributes = dir(account)
+        # Even number of attributes
+        if len(attributes) % 2 == 0:
+            return True
+        # Has *no* attributes starting with zip or addr
+        # -- and has an attribute starting with b
+        has_zip = False
+        has_addr = False
+        for p in attributes:
+            if p.startswith('b'):
+                return True
+            else:
+                has_zip = p.startswith('zip') if not has_zip else True
+                has_addr = p.startswith('addr') if not has_addr else True
+        if not has_zip or not has_addr:
+            return True
+        # Doesn't have the attributes `name`, `id` or `value
+        if 'id' not in attributes or 'name' not in attributes or 'value' not in attributes:
+            return True
+        return False
 
     def fix_account(self, account):
         """
         fix the corrupted account
         @account: int(id) or str(name) of the account
-        @return         True if success, False if an error occured
+        @return True if success, False if an error occured
         """
+        account = self.find_account(account)
+        if account is None:
+            return False
         has_zip = False
         has_addr = False
         for p in dir(account):
@@ -80,38 +112,41 @@ class Bank(object):
         return True
 
 
-a1 = Account('Francois', value=12500)
-a1.value = 12500
-a2 = Account('Jean')
-a2.value = 12500
-a3 = Account('Francis')
-a3.value = 12500
-bank = Bank()
-bank.add(a1)
-bank.add(a2)
-bank.add(a3)
+if __name__ == '__main__':
+    a1 = Account('Francois', value=12500)
+    a1.value = 12500
+    a2 = Account('Jean')
+    a2.value = 12500
+    a3 = Account('Francis')
+    a3.value = 12500
+    bank = Bank()
+    bank.add(a1)
+    bank.add(a2)
+    bank.add(a3)
 
-print('example')
-print(dir(a1))
-print(dir(a2))
-bank.transfer(a1.name, a2.name, 12.0)
-print(dir(a1))
-print(dir(a2))
+    print('example')
+    print(dir(a1))
+    print(dir(a2))
+    bank.transfer(a1.name, a2.name, 12.0)
+    print(dir(a1))
+    print(dir(a2))
 
-del a1.id
-print('\na1 - id')
-print(dir(a1))
-bank.transfer(a1.name, a2.name, 12.0)
-print(dir(a1))
+    del a1.id
+    print('\na1 - id')
+    print(dir(a1))
+    bank.transfer(a1.name, a2.name, 12.0)
+    print(dir(a1))
 
-setattr(a1, 'my_super_attribute', False)
-print('\na1 - my_super_attribute')
-print(dir(a1))
-bank.transfer(a1.name, a2.name, 12.0)
-print(dir(a1))
+    setattr(a1, 'my_super_attribute', False)
+    print('\na1 - my_super_attribute')
+    print(dir(a1))
+    bank.transfer(a1.name, a2.name, 12.0)
+    print(dir(a1))
 
-setattr(a1, 'b_is_b', 42)
-print('\na1 - starts with b')
-print(dir(a1))
-bank.transfer(a1.name, a2.name, 12.0)
-print(dir(a1))
+    setattr(a1, 'b_is_b', 42)
+    print('\na1 - starts with b')
+    print(dir(a1))
+    bank.transfer(a1.name, a2.name, 12.0)
+    bank.fix_account(a1.name)
+    bank.transfer(a1.name, a2.name, 12.0)
+    print(dir(a1))
