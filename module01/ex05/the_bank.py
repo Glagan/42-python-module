@@ -2,12 +2,18 @@ class Account(object):
     ID_COUNT = 1
 
     def __init__(self, name, **kwargs):
-        self.id = self.ID_COUNT
-        self.name = name
         self.__dict__.update(kwargs)
-        if hasattr(self, 'value'):
-            self.value = 0
+
+        self.id = self.ID_COUNT
         Account.ID_COUNT += 1
+        self.name = name
+        if not hasattr(self, 'value'):
+            self.value = 0
+
+        if self.value < 0:
+            raise AttributeError("Attribute value cannot be negative.")
+        if not isinstance(self.name, str):
+            raise AttributeError("Attribute name must be a str object.")
 
     def transfer(self, amount):
         self.value += amount
@@ -20,7 +26,10 @@ class Bank(object):
         self.account = []
 
     def add(self, account):
+        if not isinstance(account, Account):
+            return False
         self.account.append(account)
+        return True
 
     def find_account(self, identifier):
         is_int = isinstance(identifier, int)
