@@ -55,8 +55,8 @@ class Bank(object):
             return False
         if account_origin.value < amount:
             return False
-        account_origin.transfer(-amount)
-        account_dest.transfer(amount)
+        account_origin.value -= amount
+        account_dest.value += amount
         return True
 
     def is_corrupted(self, account):
@@ -136,26 +136,20 @@ if __name__ == '__main__':
     print('example')
     print(dir(a1))
     print(dir(a2))
-    bank.transfer(a1.name, a2.name, 12.0)
-    print(dir(a1))
-    print(dir(a2))
 
     del a1.id
     print('\na1 - id')
-    print(dir(a1))
+    print('transfer should fail {} {}'.format(a1.value, a2.value))
     bank.transfer(a1.name, a2.name, 12.0)
-    print(dir(a1))
-
-    setattr(a1, 'my_super_attribute', False)
-    print('\na1 - my_super_attribute')
-    print(dir(a1))
-    bank.transfer(a1.name, a2.name, 12.0)
-    print(dir(a1))
+    print('> {} {}'.format(a1.value, a2.value))
 
     setattr(a1, 'b_is_b', 42)
     print('\na1 - starts with b')
-    print(dir(a1))
-    bank.transfer(a1.name, a2.name, 12.0)
+    print('transfer should fail {} {}'.format(a1.value, a2.value))
+    print("transfer: {}".format(bank.transfer(a1.name, a2.name, 12.0)))
+    print('> {} {}'.format(a1.value, a2.value))
     bank.fix_account(a1.name)
-    bank.transfer(a1.name, a2.name, 12.0)
-    print(dir(a1))
+    bank.fix_account(a2.name)
+    print('transfer should succeed {} {}'.format(a1.value, a2.value))
+    print("transfer: {}".format(bank.transfer(a1.name, a2.name, 12.0)))
+    print('> {} {}'.format(a1.value, a2.value))
