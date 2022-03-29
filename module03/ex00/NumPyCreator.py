@@ -1,40 +1,63 @@
 import numpy as np
 
+valid_types = (int, float, bool, str)
+
 
 class NumPyCreator:
-    def type_from_container(self, container):
-        if not len(container):
-            return np.float64
-        if isinstance(container[0], list) or isinstance(container[0], tuple):
-            return self.type_from_container(container[0])
-        return type(container[0])
+    def check_list(self, lst: list):
+        expect_list = None
+        expect_length = -1
+        for item in lst:
+            is_list = isinstance(item, list)
+            if expect_list is True and not is_list:
+                return False
+            elif expect_list is False and is_list:
+                return False
+            if is_list:
+                length = len(item)
+                if expect_length < 0:
+                    expect_length = len(item)
+                elif length != expect_length:
+                    return False
+                expect_list = True
+                if not self.check_list(item):
+                    return False
+            else:
+                expect_list = False
+                if not type(item) in valid_types:
+                    print("found invalid type of {} / {} / {}".format(type(item), item, type(item) == int))
+                    return False
+        return True
 
-    def from_list(self, lst: list, dtype=None):
-        if not dtype:
-            dtype = self.type_from_container(lst)
-        return np.array(lst, dtype=dtype)
+    def from_list(self, lst: list):
+        if not isinstance(lst, list):
+            return None
+        if not self.check_list(lst):
+            return None
+        return np.array(lst)
 
-    def from_tuple(self, tpl: tuple, dtype=None):
-        if not dtype:
-            dtype = self.type_from_container(tpl)
-        return np.array(tpl, dtype=dtype)
+    def from_tuple(self, tpl: tuple):
+        if not isinstance(tpl, tuple):
+            return None
+        return np.array(tpl)
 
-    def from_iterable(self, itr, dtype=None):
-        lst = list(i for i in itr)
-        if not dtype:
-            dtype = self.type_from_container(lst)
-        return np.array(lst, dtype=dtype)
+    def from_iterable(self, itr):
+        lst = [i for i in itr]
+        return self.from_list(lst)
 
-    def from_shape(self, shape: tuple, value=None, dtype=None):
-        if value is None:
-            value = 0.0
-        if not dtype:
-            dtype = type(value)
-        return np.full(shape, value, dtype=dtype)
+    def from_shape(self, shape: tuple, value=0.0):
+        if not isinstance(shape, tuple):
+            return None
+        return np.full(shape, value)
 
-    def random(self, shape: tuple, dtype=np.float64):
-        rng = np.random.default_rng(0)
-        return rng.random(shape, dtype=dtype)
+    def random(self, shape: tuple):
+        if not isinstance(shape, tuple):
+            return None
+        return np.random.rand(*shape)
 
-    def identity(self, n: int, dtype=np.float64):
-        return np.identity(n, dtype=dtype)
+    def identity(self, n: int):
+        if not isinstance(n, int):
+            return None
+        if n < 0:
+            return None
+        return np.identity(n)
