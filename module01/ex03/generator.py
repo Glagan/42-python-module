@@ -11,7 +11,10 @@ def generator(text: str, sep: str = " ", option: str = None) -> str:
     if option is not None and option not in ["shuffle", "ordered", "unique"]:
         print('ERROR')
         return
-    lst = text.split(sep)
+    try:
+        lst = text.split(sep)
+    except BaseException:
+        return None
     if option == "shuffle":
         tmp = []
         for i in range(len(lst)):

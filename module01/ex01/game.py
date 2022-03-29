@@ -1,4 +1,8 @@
 class GotCharacter:
+    """
+    A class representing any GoT character.
+    """
+
     def __init__(self, first_name: str, is_alive: bool = True) -> None:
         self.first_name = first_name
         self.is_alive = is_alive
