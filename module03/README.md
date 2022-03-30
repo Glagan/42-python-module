@@ -10,3 +10,5 @@
 	* https://tannerhelland.com/2011/10/01/grayscale-image-algorithm-vb6.html
 * Image filters
 	* https://stackoverflow.com/questions/63036809/how-do-i-use-only-numpy-to-apply-filters-onto-images
+* Slicing
+	* https://regenerativetoday.com/indexing-and-slicing-of-1d-2d-and-3d-arrays-using-numpy/
