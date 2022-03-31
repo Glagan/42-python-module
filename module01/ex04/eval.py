@@ -5,6 +5,8 @@ class Evaluator:
             return -1
         if len(words) != len(coeffs):
             return -1
+        if len(words) == 0:
+            return -1
         result = 0
         for word, coeff in zip(words, coeffs):
             if not isinstance(word, str) or not isinstance(coeff, float):
@@ -18,6 +20,8 @@ class Evaluator:
         if not isinstance(words, list) or not isinstance(coeffs, list):
             return -1
         if len(words) != len(coeffs):
+            return -1
+        if len(words) == 0:
             return -1
         result = 0
         for i, word in enumerate(words):

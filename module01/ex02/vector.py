@@ -28,7 +28,7 @@ class Vector:
             self.values = initializer[0:]
             d_length = len(self.values)
             if is_1d:
-                self.shape = (d_length, 1 if d_length > 0 else 0)
+                self.shape = (1 if d_length > 0 else 0, d_length)
             else:
                 d2_length = len(self.values[0]) if d_length > 0 else 0
                 self.shape = (d_length if d2_length > 0 else 0, len(self.values[0]) if d_length > 0 else 0)
