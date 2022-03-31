@@ -1,6 +1,3 @@
-import os
-
-
 class CsvReader():
     def __init__(self, filename=None, sep=',', header=True, skip_top=0, skip_bottom=0):
         self.filename = filename

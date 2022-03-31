@@ -1,8 +1,5 @@
-import os
-
-
 class CsvReader():
-    def __init__(self, filename=None, sep=',', header=False, skip_top=0, skip_bottom=0):
+    def __init__(self, filename=None, sep=',', header=True, skip_top=0, skip_bottom=0):
         self.filename = filename
         self.sep = sep
         self.header = header
@@ -17,20 +14,23 @@ class CsvReader():
             return None
         try:
             self.file = open(self.filename, 'r')
-        except OSError as err:
+        except OSError:
             return None
 
         header = []
         data = []
-        columns = 0
+        columns = False
         for line in self.file:
             line_data = [column.strip('\n').strip()
                          for column in line.split(self.sep)]
-            line_data = [column for column in line_data if column]
             if not header:
                 header = line_data
-                columns = len(header)
+                if self.header:
+                    columns = len(header)
             else:
+                line_data = [column for column in line_data if column]
+                if not columns:
+                    columns = len(line_data)
                 if len(line_data) != columns:
                     return None
                 data.append(line_data)
