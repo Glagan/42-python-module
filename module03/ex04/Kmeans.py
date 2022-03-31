@@ -122,11 +122,11 @@ class KmeansClustering:
         planets["Earth"] = cluster_means[0]
 
         # Map planets to an index
-        indexed_planets = []
-        for row in original_clusters:
+        indexed_planets = [False, False, False, False]
+        for i, row in enumerate(original_clusters):
             for key, value in planets.items():
                 if np.array_equal(value, row):
-                    indexed_planets.append(key)
+                    indexed_planets[i] = key
                     break
         return [citizens, indexed_planets]
 
@@ -190,9 +190,10 @@ if __name__ == '__main__':
         x, y, z = line[:, 0], line[:, 1], line[:, 2]
         ax.plot3D(x, y, z, color=cmap(i))
         last_x, last_y, last_z = x[-1], y[-1],  z[-1]
-        # if ncentroid == 4:
-        #     ax.scatter3D(last_x, last_y, last_z, s=60, marker=markers[predictions[i] % 4], color=cmap(i), label=planets[predictions[i]])
-        # else:
-        ax.scatter3D(last_x, last_y, last_z, s=60, marker=markers[predictions[i] % 4], color=cmap(i))
-    # plt.legend(fancybox=True, framealpha=1, shadow=True, borderpad=1, title='Planets')
+        if ncentroid == 4:
+            ax.scatter3D(last_x, last_y, last_z, s=60, marker=markers[predictions[i] % 4], color=cmap(i), label=planets[predictions[i]])
+        else:
+            ax.scatter3D(last_x, last_y, last_z, s=60, marker=markers[predictions[i] % 4], color=cmap(i))
+    if ncentroid == 4:
+        plt.legend(fancybox=True, framealpha=1, shadow=True, borderpad=1, title='Planets')
     plt.show()
