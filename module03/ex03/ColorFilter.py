@@ -1,7 +1,6 @@
 import numpy as np
 
 
-# TODO Handle transparency
 class ColorFilter:
     def invert(self, array: np.ndarray) -> np.ndarray:
         """
@@ -16,7 +15,9 @@ class ColorFilter:
         """
         if not isinstance(array, np.ndarray):
             return None
-        return 1 - array
+        array = 0 + array  # copy
+        array[:, :, :3] = 1 - array[:, :, :3]
+        return array
 
     def to_red(self, array: np.ndarray) -> np.ndarray:
         """
@@ -31,7 +32,9 @@ class ColorFilter:
         """
         if not isinstance(array, np.ndarray):
             return None
-        return array - self.to_green(array) - self.to_blue(array)
+        array = 0 + array  # copy
+        array[:, :, :3] = array[:, :, :3] - self.to_green(array)[:, :, :3] - self.to_blue(array)[:, :, :3]
+        return array
 
     def to_green(self, array: np.ndarray) -> np.ndarray:
         """
@@ -46,7 +49,9 @@ class ColorFilter:
         """
         if not isinstance(array, np.ndarray):
             return None
-        return array * [0, 1, 0]
+        array = 1 * array  # copy
+        array[:, :, :3] = array[:, :, :3] * [0, 1, 0]
+        return array
 
     def to_blue(self, array: np.ndarray) -> np.ndarray:
         """
@@ -61,8 +66,13 @@ class ColorFilter:
         """
         if not isinstance(array, np.ndarray):
             return None
-        # TODO ?????????????
-        return array * [0, 0, 1]
+        (x, y, c) = array.shape
+        copy = np.zeros((x, y))  # copy
+        array = np.dstack((copy, array[:, :, :]))  # copy
+        blue = np.zeros((x, y, 2))
+        if c == 4:
+            return np.dstack((blue, array[:, :, 2:]))
+        return np.dstack((blue, array[:, :, 2]))
 
     def to_celluloid(self, array: np.ndarray, shades: int = 4) -> np.ndarray:
         """
@@ -86,9 +96,8 @@ class ColorFilter:
             return None
         if shades < 4 or shades > 255:
             return None
-        # TODO ??????????????
-        limits = np.linspace(0, 1, shades)
-        array[array < limits[0]] = limits[0]
+        array = array.copy()
+        limits = np.linspace(0, 1, shades + 1)
         for i in range(1, shades):
             array[(array > limits[i - 1]) & (array < limits[i])] = limits[i]
         return array
@@ -111,14 +120,16 @@ class ColorFilter:
         """
         if not isinstance(array, np.ndarray):
             return None
-        if filter not in ['w', 'weighted', 'm', 'mean']:
+        if filter not in ['w', 'weight', 'weighted', 'm', 'mean']:
             return None
-        # TODO ??????????????
         if filter == 'mean' or filter == 'm':
             # (R + G + B) / 3
-            average = np.sum(array, axis=2) / 3
-            return np.reshape(np.repeat(average, 3, axis=1), array.shape)
-        elif filter == 'weighted' or filter == 'w':
+            array = 1 * array  # copy
+            average = np.sum(array[:, :, :3], axis=2) / 3
+            if array.shape[2] == 4:
+                return np.dstack((average, average, average, array[:, :, 3]))
+            return np.dstack((average, average, average))
+        elif filter == 'weight' or filter == 'weighted' or filter == 'w':
             # (R * 0.299) + (G * 0.587) + (B * 0.114)
             if 'weights' in kwargs:
                 weights = kwargs['weights']
@@ -128,6 +139,9 @@ class ColorFilter:
                     return None
             else:
                 weights = [0.299, 0.587, 0.114]
-            weighted = np.sum(array * weights, axis=2)
-            return np.reshape(np.repeat(weighted, 3, axis=1), array.shape)
+            array = 1 * array  # copy
+            average = np.sum(array[:, :, :3] * weights, axis=2) / 3
+            if array.shape[2] == 4:
+                return np.dstack((average, average, average, array[:, :, 3]))
+            return np.dstack((average, average, average))
         return None
