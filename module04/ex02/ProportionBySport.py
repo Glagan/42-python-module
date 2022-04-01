@@ -1,4 +1,15 @@
-def proportionBySport(df, year, sport, gender):
-    by_year_gender = df[(df['Year'] == year) & (df['Sex'] == gender)]
-    by_sport = by_year_gender[by_year_gender['Sport'] == sport]
-    return by_sport.shape[0] / by_year_gender.shape[0]
+import pandas as pd
+
+
+def proportionBySport(df: pd.DataFrame, year: int, sport: str, gender: str):
+    if not isinstance(df, pd.DataFrame):
+        return 0
+    if not isinstance(year, int):
+        return 0
+    if not isinstance(sport, str) or not isinstance(gender, str):
+        return 0
+    by_gender_sport = df[(df['Sport'] == sport) & (df['Sex'] == gender) & (df['Year'] == year)].drop_duplicates('Name')
+    by_year = df[(df['Sex'] == gender) & (df['Year'] == year)].drop_duplicates('Name')
+    if by_year.shape[0] == 0:
+        return 0
+    return by_gender_sport.shape[0] / by_year.shape[0]

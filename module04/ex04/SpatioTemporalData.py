@@ -2,11 +2,23 @@ import pandas as pd
 
 
 class SpatioTemporalData:
-    def __init__(self, df):
+    def __init__(self, df: pd.DataFrame):
+        if not isinstance(df, pd.DataFrame):
+            raise ValueError("dataset should be a DataFrame")
         self.data = df
 
-    def when(self, location):
-        return self.data[self.data['City'] == location]['Year'].unique()
+    def when(self, location: str):
+        if not isinstance(self.data, pd.DataFrame):
+            return []
+        try:
+            return self.data[self.data['City'] == location]['Year'].unique().tolist()
+        except BaseException:
+            return []
 
-    def where(self, date):
-        return self.data[self.data['Year'] == date]['City'].unique()
+    def where(self, date: str):
+        if not isinstance(self.data, pd.DataFrame):
+            return []
+        try:
+            return self.data[self.data['Year'] == date]['City'].unique().tolist()
+        except BaseException:
+            return []

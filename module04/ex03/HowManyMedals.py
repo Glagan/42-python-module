@@ -1,4 +1,11 @@
-def howManyMedals(df, player):
+import pandas as pd
+
+
+def howManyMedals(df: pd.DataFrame, player: str):
+    if not isinstance(df, pd.DataFrame):
+        return {}
+    if not isinstance(player, str):
+        return {}
     by_player = df[df['Name'] == player]
     years = by_player['Year'].unique()
     medals = {}
