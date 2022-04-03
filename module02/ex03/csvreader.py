@@ -1,10 +1,16 @@
+import sys
+
+
 class CsvReader():
-    def __init__(self, filename=None, sep=',', header=True, skip_top=0, skip_bottom=0):
+    def __init__(self, filename=None, sep=',', header=False, skip_top=0, skip_bottom=0):
         self.filename = filename
         self.sep = sep
         self.header = header
         self.skip_top = skip_top
         self.skip_bottom = skip_bottom
+        self.header_value = None
+        self.raw_data = None
+        self.data_value = None
 
     def __enter__(self):
         self.file = None
@@ -38,23 +44,19 @@ class CsvReader():
             data.insert(0, header)
             header = None
 
-        class CsvFile:
-            def __init__(self, header, data):
-                self.header = header
-                self.data = data
-
-            def __iter__(self):
-                return data.__iter__()
-
-            def getdata(self):
-                return self.data
-
-            def getheader(self):
-                return self.header
-
         if self.skip_bottom == 0:
             self.skip_bottom = -len(data)
-        return CsvFile(header, data[self.skip_top:-self.skip_bottom])
+
+        self.header_value = header
+        self.raw_data = data
+        self.data_value = data[self.skip_top:-self.skip_bottom]
+        return self
+
+    def getdata(self):
+        return self.data_value
+
+    def getheader(self):
+        return self.header_value
 
     def __exit__(self, exc_type, exc_value, exc_trace):
         if self.file:

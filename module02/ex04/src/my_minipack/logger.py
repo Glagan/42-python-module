@@ -1,6 +1,6 @@
+import os
 from functools import wraps
 from datetime import datetime
-import getpass
 
 
 def log(fct):
@@ -15,7 +15,7 @@ def log(fct):
             else:
                 total_str = '{:<4.3f} ms'.format(total.microseconds / 1000)
             line = '({})Running: {:<18} [ exec-time = {} ]\n'
-            log_file.write(line.format(getpass.getuser(), ' '.join(
+            log_file.write(line.format(os.environ["USER"], ' '.join(
                 fct.__name__.split('_')).title(), total_str))
         return result
     return wrapper

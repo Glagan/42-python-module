@@ -3,6 +3,8 @@ from ft_map import ft_map
 from ft_filter import ft_filter
 from ft_reduce import ft_reduce
 
+print("\n# Tests")
+
 print("Success:")
 
 # Example 1:
@@ -100,3 +102,97 @@ try:
     print(list(ft_map(lambda t: t + "aa", x)))
 except BaseException as err:
     print("(handled) {}".format(err))
+
+
+print("\n# Scale")
+
+
+def function(x): return x + 1
+
+
+iterable = [1, 2, 3]
+
+print("\nft_map")
+
+print(list(ft_map(lambda x: x + 2, [])))  # []
+print(list(ft_map(lambda x: x + 2, [1])))  # [3]
+print(list(ft_map(lambda x: x ** 2, [1, 2, 3, 4, 5])))  # [1, 4, 9, 16, 25]
+
+# Expect <generator>
+print(ft_map(function_to_apply=None, iterable=iterable))
+# Expect TypeError
+try:
+    print(list(ft_map(function_to_apply=None, iterable=iterable)))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(list(ft_map(function_to_apply=2, iterable=iterable)))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(list(ft_map(function_to_apply=function, iterable=None)))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(list(ft_map(function_to_apply=function, iterable=2)))
+except BaseException as err:
+    print(err)
+
+
+print("\nft_filter")
+
+print(list(ft_filter(lambda x: x <= 1, [])))  # []
+
+# Expect <generator>
+print(ft_filter(function_to_apply=None, iterable=iterable))
+# Expect TypeError
+try:
+    print(list(ft_filter(function_to_apply=None, iterable=iterable)))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(list(ft_filter(function_to_apply=2, iterable=iterable)))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(list(ft_filter(function_to_apply=function, iterable=None)))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(list(ft_filter(function_to_apply=function, iterable=2)))
+except BaseException as err:
+    print(err)
+
+print("\nft_reduce")
+
+print(ft_reduce((lambda x, y: x + y), [1]))  # 1
+print(ft_reduce((lambda x, y: x * y), [1, 2, 3, 4]))  # 24
+
+# Expect None or Error
+try:
+    print(ft_reduce(None, iterable=iterable))
+except BaseException as err:
+    print(err)
+# Expect None or Error
+try:
+    print(ft_reduce(2, iterable=iterable))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(ft_reduce(function, None))
+except BaseException as err:
+    print(err)
+# Expect TypeError
+try:
+    print(ft_reduce(function, 2))
+except BaseException as err:
+    print(err)
+
+#

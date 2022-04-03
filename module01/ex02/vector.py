@@ -69,7 +69,7 @@ class Vector:
             return Vector([v[0] for v in self.values])
         return Vector([[v] for v in self.values])
 
-    def validate_list(number_list: list, columns=0, allow_nested_list=True) -> bool:
+    def validate_list(number_list: list, allow_nested_list=True) -> bool:
         """
         Validate a list of float or nested list of floats against all errors.
         The number_list should strictly be a list of float,
@@ -88,7 +88,7 @@ class Vector:
             if is_list:
                 current_length = len(i)
                 if current_length > 1:
-                    raise TypeError('Only single column Vectors are supported.')
+                    raise TypeError('A Vector must have only one row or one column.')
                 elif current_length == 0:
                     has_empty_row = True
                 has_one_list = True
