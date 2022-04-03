@@ -2,6 +2,9 @@ import numpy as np
 
 
 class ScrapBooker:
+    def __init__(self) -> None:
+        pass
+
     def crop(self, array: np.ndarray, dimensions: tuple, position: tuple = (0, 0)):
         """
         Crops the image as a rectangle via dim arguments (being the new height
@@ -55,9 +58,9 @@ class ScrapBooker:
         axis = 0 if axis else 1
         if array.shape[axis] < n:
             return None
-        mask = np.full((array.shape[axis]), True)
-        for i in range(0, array.shape[axis], n):
-            mask[i] = False
+        mask = np.full((array.shape[axis]), False)
+        for i in range(n - 1, array.shape[axis], n):
+            mask[i] = True
         return np.delete(array, mask, axis=axis)
 
     def juxtapose(self, array: np.ndarray, n: int, axis: int):
@@ -79,10 +82,9 @@ class ScrapBooker:
             return None
         if n <= 0 or axis < 0 or axis > 1:
             return None
-        # Reverse axis according to subject for some reasons...
-        axis = 0 if axis else 1
+        # -- **NO** inverted axis for some other reasons on this one
         carry = array
-        for _ in range(n):
+        for _ in range(1 if n == 1 else n - 1):
             carry = np.concatenate((carry, array), axis=axis)
         return carry
 
@@ -107,9 +109,11 @@ class ScrapBooker:
             return None
         if any(not isinstance(i, int) for i in dimensions):
             return None
+        if any(i <= 0 for i in dimensions):
+            return None
         carry = array
         if dimensions[0] > 1:
-            carry = self.juxtapose(array, dimensions[0] - 1, 1)
+            carry = self.juxtapose(array, dimensions[0] - 1, 0)
         if dimensions[1] > 1:
-            carry = self.juxtapose(carry, dimensions[1] - 1, 0)
+            carry = self.juxtapose(carry, dimensions[1] - 1, 1)
         return carry

@@ -71,8 +71,8 @@ class ColorFilter:
         array = np.dstack((copy, array[:, :, :]))  # copy
         blue = np.zeros((x, y, 2))
         if c == 4:
-            return np.dstack((blue, array[:, :, 2:]))
-        return np.dstack((blue, array[:, :, 2]))
+            return np.dstack((blue, array[:, :, 3:]))
+        return np.dstack((blue, array[:, :, 3]))
 
     def to_celluloid(self, array: np.ndarray, shades: int = 4) -> np.ndarray:
         """

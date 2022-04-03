@@ -1,8 +1,8 @@
 import sys
+import argparse
 import numpy as np
 from csvreader import CsvReader
 import matplotlib.pyplot as plt
-import itertools
 
 
 class KmeansClustering:
@@ -133,13 +133,18 @@ class KmeansClustering:
 
 if __name__ == '__main__':
     argc = len(sys.argv)
-    if argc != 4:
-        print('Missing or too many arguments')
-        print("Usage: Kmeans.py filepath='solar_system_census.csv' ncentroid=4 max_iter=30")
-        exit()
-    dataset_path, ncentroid, max_iter = sys.argv[1:]
 
-    # Parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filepath', help='Dataset path')
+    parser.add_argument('ncentroid', help='Amount of centroids', type=int, default=4)
+    parser.add_argument('max_iter', help='Maximum number of iterations', type=int, default=30)
+    args = parser.parse_args()
+
+    dataset_path = args.filepath
+    ncentroid = args.ncentroid
+    max_iter = args.max_iter
+
+    # Check arguments
     try:
         ncentroid = int(ncentroid)
         if ncentroid < 2:
@@ -171,7 +176,8 @@ if __name__ == '__main__':
     kmeans = KmeansClustering(ncentroid=ncentroid, max_iter=max_iter)
     history = kmeans.fit(dataset)
     [predictions, planets] = kmeans.predict(dataset)
-    print("predictions {} planets {}".format(predictions, planets))
+    print("predictions", predictions)
+    print("planets", planets)
 
     # Show the results
     fig = plt.figure()

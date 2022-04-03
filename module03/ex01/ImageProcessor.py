@@ -4,6 +4,9 @@ import matplotlib.image as image
 
 
 class ImageProcessor:
+    def __init__(self) -> None:
+        pass
+
     def load(self, path: str) -> np.ndarray:
         if path is None:
             return None
