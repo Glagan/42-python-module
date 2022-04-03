@@ -1,6 +1,5 @@
 build
 dist
 my_minipack.egg-info
-test.py
 machine.log
 venv
