@@ -2,6 +2,9 @@ import pandas as pd
 
 
 class FileLoader:
+    def __init__(self) -> None:
+        pass
+
     def load(self, path: str):
         if not isinstance(path, str):
             return None

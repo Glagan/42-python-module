@@ -2,6 +2,9 @@ import pandas as pd
 
 
 class FileLoader:
+    def __init__(self) -> None:
+        pass
+
     def load(self, path):
         try:
             df = pd.read_csv(path)

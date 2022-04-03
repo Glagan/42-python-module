@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 
 
 class MyPlotLib:
+    def __init__(self) -> None:
+        pass
+
     def histogram(self, data: pd.DataFrame, features: list):
         if not isinstance(data, pd.DataFrame):
             return
