@@ -14,15 +14,14 @@ def howManyMedalsByCountry(df: pd.DataFrame, country: str):
         return {}
     try:
         by_country = df[df['Team'] == country]
-        by_unique_sports = pd.concat(
-            (by_country.query("Sport not in @team_sports"),
-             by_country.query("Sport in @team_sports").drop_duplicates(subset=['Sex', 'Games', 'Year', 'Season', 'Sport', 'City', 'Event'], keep='first'))
-        )
-        years = by_unique_sports.sort_values('Year')['Year'].unique()
         medals = {}
-        for year in years:
-            for_year = by_unique_sports[by_unique_sports['Year'] == year]
-            year_medals = for_year.value_counts()
+        for year in by_country.sort_values('Year')['Year'].unique():
+            for_year = by_country[by_country['Year'] == year]
+            by_unique_sports = pd.concat(
+                (for_year.query("Sport not in @team_sports"),
+                 for_year.query("Sport in @team_sports").drop_duplicates(subset=['Sex', 'Season', 'City', 'Sport', 'Event', 'Medal'], keep='first'))
+            )
+            year_medals = by_unique_sports.value_counts('Medal')
             if not year_medals.empty:
                 medals[year] = {'G': 0, 'S': 0, 'B': 0}
                 # Group by Medal for easy access in loop
