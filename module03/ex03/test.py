@@ -5,7 +5,7 @@ from ColorFilter import ColorFilter
 print("# Tests")
 
 imp = ImageProcessor()
-arr = imp.load("../resources/elon.png")
+arr = imp.load("../resources/elon2.png")
 print(arr.shape)
 # Output
 # Loading image of dimensions 200 x 200
@@ -25,7 +25,7 @@ print("\n# Scale")
 cf = ColorFilter()
 
 for f in [cf.to_red, cf.to_green, cf.to_blue, cf.invert]:
-    array = plt.imread("../resources/elon.png")
+    array = plt.imread("../resources/elon2.png")
     plt.imshow(f(array))
     plt.show()
 

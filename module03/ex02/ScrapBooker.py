@@ -113,7 +113,7 @@ class ScrapBooker:
             return None
         carry = array
         if dimensions[0] > 1:
-            carry = self.juxtapose(array, dimensions[0] - 1, 0)
+            carry = self.juxtapose(array, dimensions[0], 0)
         if dimensions[1] > 1:
-            carry = self.juxtapose(carry, dimensions[1] - 1, 1)
+            carry = self.juxtapose(carry, dimensions[1], 1)
         return carry

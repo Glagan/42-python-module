@@ -39,7 +39,7 @@ print("juxtapose", spb.juxtapose(arr4, 2, 0))
 #       [4, 5, 6],
 #       [7, 8, 9]])
 
-arr5 = np.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+arr5 = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 print("mosaic 2,2", spb.mosaic(arr5, (2, 2)))
 print("mosaic 1,1", spb.mosaic(arr5, (1, 1)))
 print("mosaic 1,5", spb.mosaic(arr5, (1, 5)))
